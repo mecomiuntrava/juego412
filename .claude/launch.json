@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "juego412",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "4120"],
+      "port": 4120
+    }
+  ]
+}

@@ -1,0 +1,1123 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>No digas lo mismo que yo</title>
+<meta name="description" content="Cómo se juega a «No digas lo mismo que yo», un juego futbolero para la comunidad de 412.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&family=Teko:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --font-heading: "Teko", "Oswald", "Arial Narrow", sans-serif;
+  --font-body: "Inter", system-ui, sans-serif;
+
+  --brand: #53fc18;
+  --brand-hover: #46df13;
+  --brand-soft: #53fc1824;
+  --brand-muted: #53fc1814;
+  --brand-border: #53fc185c;
+  --brand-glow: #53fc1873;
+
+  --bg: #050605;
+  --bg-soft: #090b09;
+  --bg-muted: #0d100d;
+  --bg-elevated: #111511;
+  --bg-card: #141914;
+
+  --text: #f4f6f2;
+  --text-soft: #d8ddd4;
+  --text-muted: #a7afa3;
+  --text-subtle: #777f74;
+  --text-inverse: #050605;
+
+  --border: #ffffff1a;
+  --border-soft: #ffffff0f;
+  --border-strong: #ffffff2e;
+
+  --yellow: #f5c542;
+  --red: #ff3b3b;
+  --blue: #214a8f;
+
+  --card-bg: linear-gradient(180deg, #141914f7 0%, #080b08fc 100%);
+  --card-bg-hover: linear-gradient(180deg, #1b231bf5 0%, #0a0e0afa 100%);
+  --card-shadow: 0 24px 80px #00000073;
+  --glow-sm: 0 0 14px #53fc183d;
+  --glow-md: 0 0 32px #53fc1852;
+
+  --page-max: 1180px;
+  --gutter: clamp(16px, 5vw, 64px);
+  --section-gap: clamp(56px, 7vw, 96px);
+  --t: .16s;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background-color: var(--bg);
+  background-image:
+    radial-gradient(circle, rgba(180,255,170,.035) .65px, transparent .75px),
+    radial-gradient(ellipse 80% 50% at 50% -10%, #53fc1814, transparent 70%);
+  background-size: 6px 6px, 100% 100%;
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+::selection { background: #53fc1847; color: #fff; }
+::-webkit-scrollbar { width: 10px; }
+::-webkit-scrollbar-track { background: #050605eb; }
+::-webkit-scrollbar-thumb { background: #53fc186b; border: 2px solid #050605f0; }
+::-webkit-scrollbar-thumb:hover { background: #53fc18a3; }
+a { color: inherit; }
+:focus-visible { outline: none; box-shadow: 0 0 0 3px #53fc1852; }
+
+.wrap { max-width: var(--page-max); margin: 0 auto; padding: 0 var(--gutter); }
+
+/* ---------- NAV ---------- */
+.nav {
+  position: sticky; top: 0; z-index: 20;
+  background: #0a0e0ab8;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border-soft);
+}
+.nav .wrap { display: flex; align-items: center; gap: 28px; height: 60px; }
+.nav__brand {
+  font-family: var(--font-heading); font-weight: 700; font-size: 30px; line-height: 1;
+  text-decoration: none; letter-spacing: .01em; padding-top: 4px; white-space: nowrap;
+}
+.nav__brand b { color: var(--brand); font-weight: 700; }
+.nav__links { display: flex; gap: 22px; margin-left: auto; }
+.nav__link {
+  position: relative; font-size: 14px; font-weight: 500; color: var(--text-soft);
+  text-decoration: none; padding: 6px 0; transition: color var(--t);
+}
+.nav__link::after {
+  content: ""; position: absolute; left: 0; right: 0; bottom: -2px; height: 2px;
+  background: var(--brand); transform: scaleX(0); transform-origin: left;
+  transition: transform var(--t);
+}
+.nav__link:hover, .nav__link.is-active { color: var(--brand); }
+.nav__link:hover::after, .nav__link.is-active::after { transform: scaleX(1); }
+
+/* ---------- BUTTONS ---------- */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  font: 800 14px/1 var(--font-body); padding: 12px 18px; border-radius: 2px;
+  border: 1px solid transparent; cursor: pointer; text-decoration: none;
+  transition: background var(--t), border-color var(--t), color var(--t), transform var(--t);
+}
+.btn:hover { transform: translateY(-1px); }
+.btn--primary { background: var(--brand); color: var(--text-inverse); border-color: var(--brand); }
+.btn--primary:hover { background: var(--bg); color: var(--brand); }
+.btn--secondary { background: #ffffff0a; color: var(--text); border-color: var(--border-strong); }
+.btn--secondary:hover { background: #ffffff14; border-color: var(--brand-border); color: var(--brand); }
+.btn:disabled { opacity: .4; cursor: not-allowed; transform: none; }
+
+/* ---------- TYPE ---------- */
+.eyebrow {
+  font-size: 13px; font-weight: 800; text-transform: uppercase; letter-spacing: .02em;
+  color: var(--brand); margin: 0 0 4px;
+}
+.h-section {
+  font-family: var(--font-heading); font-weight: 700; text-transform: uppercase;
+  font-size: clamp(44px, 5vw, 68px); line-height: .9; margin: 0;
+  padding-bottom: 14px; position: relative; display: inline-block;
+}
+.h-section::after {
+  content: ""; position: absolute; left: 0; bottom: 0; height: 2px; width: 100%;
+  background: linear-gradient(90deg, var(--brand), transparent);
+}
+.lead { color: var(--text-soft); font-size: clamp(16px, 1.35vw, 19px); max-width: 62ch; margin: 18px 0 0; }
+.muted { color: var(--text-muted); }
+.hl { color: var(--brand); font-weight: 700; }
+
+section { padding: var(--section-gap) 0 0; }
+section:last-of-type { padding-bottom: var(--section-gap); }
+
+/* ---------- NOTICE ---------- */
+.notice {
+  margin-top: 28px; padding: 12px 16px; text-align: center;
+  background: #ffffff0a; border: 1px solid var(--border);
+  font-size: 12px; font-weight: 800; text-transform: uppercase; color: var(--brand);
+  letter-spacing: .02em;
+}
+
+/* ---------- CARD ---------- */
+.card {
+  background: var(--card-bg); border: 1px solid var(--border); border-radius: 2px;
+  box-shadow: var(--card-shadow); position: relative;
+  transition: border-color .22s, box-shadow .22s, background .22s;
+}
+.card--hover:hover { border-color: #53fc1873; box-shadow: var(--card-shadow), 0 0 40px #53fc1829; background: var(--card-bg-hover); }
+
+/* ---------- HERO ---------- */
+@property --spin { syntax: "<angle>"; inherits: false; initial-value: 0deg; }
+@keyframes spin { to { --spin: 360deg; } }
+.hero { margin-top: 16px; padding: 2px; border-radius: 2px; position: relative; isolation: isolate; }
+.hero::before {
+  content: ""; position: absolute; inset: 0; z-index: -1; border-radius: 2px;
+  background: conic-gradient(from var(--spin), transparent 0 70%, var(--brand) 85%, transparent 100%), var(--border);
+  animation: spin 6s linear infinite;
+}
+.hero__inner {
+  background:
+    radial-gradient(circle at 85% 20%, #53fc181f, transparent 45%),
+    linear-gradient(180deg, #141914 0%, #080b08 100%);
+  padding: clamp(28px, 5vw, 64px);
+  display: grid; grid-template-columns: 1.25fr 1fr; gap: clamp(24px, 4vw, 56px); align-items: center;
+}
+.hero__title {
+  font-family: var(--font-heading); font-weight: 700; text-transform: uppercase; margin: 6px 0 0;
+  font-size: clamp(64px, 8.5vw, 124px); line-height: .84;
+}
+.hero__title .accent { color: var(--brand); text-shadow: 0 0 40px #53fc1859; }
+.hero__title .dot { color: var(--brand); }
+.hero__meta { display: flex; flex-wrap: wrap; gap: 8px 18px; margin-top: 24px; font-size: 13px; font-weight: 700; color: var(--text-soft); }
+.hero__meta span::before { content: "·"; color: var(--brand); margin-right: 8px; }
+.hero__meta span:first-child::before { display: none; }
+.hero__ctas { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 28px; }
+
+/* Pitch diagram */
+.pitch {
+  position: relative; aspect-ratio: 4 / 5; border: 1px solid #ffffff38;
+  background:
+    repeating-linear-gradient(180deg, #102414 0 12.5%, #16331b 12.5% 25%);
+  overflow: hidden;
+}
+.pitch::before { /* halfway line + circle */
+  content: ""; position: absolute; left: 0; right: 0; top: 50%; border-top: 1px solid #ffffff38;
+}
+.pitch::after {
+  content: ""; position: absolute; left: 50%; top: 50%; width: 34%; aspect-ratio: 1;
+  transform: translate(-50%, -50%); border: 1px solid #ffffff38; border-radius: 50%;
+}
+.pitch__box { position: absolute; left: 25%; right: 25%; height: 14%; border: 1px solid #ffffff38; }
+.pitch__box--top { top: -1px; } .pitch__box--bot { bottom: -1px; }
+.token {
+  position: absolute; z-index: 2; transform: translate(-50%, -50%);
+  display: flex; flex-direction: column; align-items: center; gap: 5px;
+}
+.av-wrap { position: relative; }
+.token .av {
+  display: block; width: clamp(50px, 6.5vw, 64px); aspect-ratio: 1; border-radius: 50%; overflow: hidden;
+  border: 2px solid #050605; box-shadow: 0 8px 20px #00000080;
+  transition: transform var(--t), border-color var(--t);
+}
+.token:hover .av { transform: translateY(-2px); border-color: var(--brand); }
+.token .av svg { display: block; width: 100%; height: 100%; }
+.token__name {
+  font: 800 10px/1 var(--font-body); text-transform: uppercase; letter-spacing: .02em;
+  background: #050605d9; color: var(--text); padding: 4px 6px; border-radius: 2px; white-space: nowrap;
+}
+.token--orador .av { width: clamp(74px, 10vw, 96px); border-color: var(--brand); box-shadow: var(--glow-md); }
+.token--orador .token__name { background: var(--brand); color: var(--text-inverse); }
+.token--orador .av-wrap::before, .token--orador .av-wrap::after {
+  content: ""; position: absolute; inset: 0; border-radius: 50%; border: 2px solid var(--brand);
+  animation: radar 2.2s ease-out infinite; pointer-events: none;
+}
+.token--orador .av-wrap::after { animation-delay: 1.1s; }
+
+/* ---------- PLANTEL ---------- */
+.squad { margin-top: 36px; display: grid; grid-template-columns: repeat(6, 1fr); border: 1px solid var(--border); box-shadow: var(--card-shadow); }
+.squad figure { margin: 0; position: relative; overflow: hidden; background: var(--bg-elevated); }
+.squad figure + figure { border-left: 1px solid var(--border); }
+.squad svg { display: block; width: 100%; height: auto; transition: transform .35s ease; }
+.squad figure:hover svg { transform: scale(1.05); }
+.squad figcaption { padding: 12px 14px 14px; border-top: 1px solid var(--border); }
+.squad .name { font-family: var(--font-heading); font-weight: 700; font-size: clamp(26px, 2.4vw, 32px); line-height: .9; text-transform: uppercase; transition: color var(--t); }
+.squad figure:hover .name { color: var(--brand); }
+.squad .role { font-size: 11px; font-weight: 800; text-transform: uppercase; color: var(--text-muted); letter-spacing: .03em; }
+.squad .is-orador .role { color: var(--brand); }
+.mini { width: 34px; height: 34px; border-radius: 50%; flex: none; display: block; }
+@keyframes radar { 0% { transform: scale(.65); opacity: .5; } 100% { transform: scale(1.6); opacity: 0; } }
+
+/* ---------- STEPS ---------- */
+.grid { display: grid; gap: 16px; margin-top: 36px; }
+.grid--4 { grid-template-columns: repeat(4, 1fr); }
+.grid--3 { grid-template-columns: repeat(3, 1fr); }
+.step { padding: 26px 24px 28px; }
+.step__n {
+  font-family: var(--font-heading); font-weight: 700; font-size: 64px; line-height: .8;
+  color: transparent; -webkit-text-stroke: 1px var(--brand-border); transition: color var(--t), -webkit-text-stroke-color var(--t);
+}
+.step:hover .step__n { color: var(--brand); -webkit-text-stroke-color: var(--brand); }
+.step h3, .card-title {
+  font-family: var(--font-heading); font-weight: 700; text-transform: uppercase;
+  font-size: clamp(28px, 2.4vw, 34px); line-height: .95; margin: 14px 0 8px;
+}
+.step p { margin: 0; color: var(--text-soft); font-size: 15px; }
+
+/* ---------- DEMO (transmisión) ---------- */
+.label { font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: .04em; color: var(--text-muted); }
+.stream { margin-top: 36px; overflow: hidden; }
+.stream__bar { display: flex; align-items: center; gap: 14px; padding: 12px 16px; border-bottom: 1px solid var(--border); flex-wrap: wrap; }
+.live {
+  display: inline-flex; align-items: center; gap: 8px; padding: 6px 8px; border-radius: 2px;
+  font: 800 11px/1 var(--font-body); text-transform: uppercase; letter-spacing: .04em; color: #fff; background: var(--red);
+}
+.live i { position: relative; width: 7px; height: 7px; border-radius: 50%; background: #fff; }
+.live i::after { content: ""; position: absolute; inset: 0; border-radius: 50%; background: #fff; animation: radar 1.6s ease-out infinite; }
+.stream__cat { font-family: var(--font-heading); font-weight: 600; font-size: clamp(22px, 2.2vw, 30px); line-height: 1; text-transform: uppercase; padding-top: 3px; }
+.stream__cat .label { font-family: var(--font-body); margin-right: 8px; vertical-align: 3px; }
+.stream__step {
+  margin-left: auto; padding: 6px 8px; border-radius: 2px; white-space: nowrap;
+  font: 800 11px/1 var(--font-body); text-transform: uppercase; color: var(--brand);
+  border: 1px solid var(--brand-border); background: var(--brand-muted);
+}
+.cams { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; padding: 6px; background: #000; }
+.cam { position: relative; aspect-ratio: 16 / 10; overflow: hidden; background: #0b0e0b; }
+.cam > svg { display: block; width: 100%; height: 100%; transition: filter .4s; }
+.cam::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  border: 2px solid transparent; transition: border-color var(--t), box-shadow var(--t);
+}
+.cam.is-active::after { border-color: var(--brand); box-shadow: inset 0 0 26px #53fc1859; }
+.cam.is-out > svg { filter: grayscale(1) brightness(.45); }
+.cam__tag {
+  position: absolute; left: 8px; bottom: 8px; display: flex; align-items: center; gap: 6px;
+  padding: 5px 7px; border-radius: 2px; background: #050605d9;
+  font: 800 11px/1 var(--font-body); text-transform: uppercase; letter-spacing: .02em;
+}
+.cam__tag em { font-style: normal; color: var(--brand); }
+.cam.is-active .cam__tag::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--brand); box-shadow: var(--glow-sm); }
+.cam.is-out .cam__tag { color: var(--text-muted); }
+.bubble {
+  position: absolute; left: 50%; top: 7%; max-width: 88%;
+  transform: translate(-50%, -6px) scale(.9); opacity: 0;
+  padding: 6px 10px 3px; border-radius: 2px; background: #f4f6f2; color: #050605;
+  font-family: var(--font-heading); font-weight: 700; font-size: clamp(18px, 2vw, 26px); line-height: 1;
+  text-transform: uppercase; white-space: nowrap; box-shadow: 0 8px 20px #000a;
+  transition: opacity .2s, transform .25s cubic-bezier(.2, .9, .3, 1.3), background var(--t);
+}
+.bubble::after {
+  content: ""; position: absolute; left: 50%; bottom: -4px; width: 9px; height: 9px;
+  background: inherit; transform: translateX(-50%) rotate(45deg);
+}
+.bubble.is-on { opacity: 1; transform: translate(-50%, 0) scale(1); }
+.cam.is-active .bubble { background: var(--brand); }
+.cam.is-out .bubble { background: #a7afa3; }
+.cam--orador .bubble { white-space: normal; text-align: center; width: 84%; font-size: clamp(15px, 1.5vw, 20px); }
+.bubble s { text-decoration-color: var(--red); text-decoration-thickness: 3px; opacity: .55; margin-right: 4px; }
+.cam__card {
+  position: absolute; right: 10px; top: 10px; width: 18px; height: 26px; border-radius: 2px;
+  transform: rotate(8deg) scale(0); box-shadow: 0 6px 14px #000a;
+  transition: transform .3s cubic-bezier(.2, .9, .3, 1.4);
+}
+.cam__card.is-yellow { background: var(--yellow); transform: rotate(8deg) scale(1); }
+.cam__card.is-red { background: var(--red); transform: rotate(8deg) scale(1); }
+.stream__caption {
+  display: flex; gap: 12px; padding: 16px 18px; min-height: 80px;
+  border-top: 1px solid var(--border); color: var(--text-soft);
+}
+.stream__caption::before { content: ""; flex: none; width: 3px; background: var(--brand); box-shadow: var(--glow-sm); }
+.stream__caption p { margin: 0; max-width: 80ch; }
+.stream__caption strong { color: var(--text); }
+.demo__controls { display: flex; align-items: center; gap: 10px; padding: 0 18px 18px; flex-wrap: wrap; }
+.dots { display: flex; gap: 5px; margin-left: auto; }
+.dots i { width: 16px; height: 3px; background: var(--border-strong); transition: background var(--t); }
+.dots i.on { background: var(--brand); box-shadow: var(--glow-sm); }
+@media (max-width: 640px) {
+  .cams { grid-template-columns: 1fr 1fr; }
+  .cam--orador { grid-column: 1 / -1; aspect-ratio: 16 / 8; }
+  .bubble { font-size: 15px; padding: 4px 7px 2px; top: 5%; max-width: 78%; }
+  .cam--orador .bubble { font-size: 15px; width: auto; }
+  .cam__card { width: 12px; height: 17px; right: 6px; top: 6px; }
+  .cam__tag { left: 5px; bottom: 5px; font-size: 10px; padding: 4px 5px; }
+  .stream__step { margin-left: 0; }
+  .dots { margin-left: 0; width: 100%; }
+}
+
+/* ---------- TABS / FORMATS ---------- */
+.tabs { display: flex; gap: 26px; margin-top: 32px; border-bottom: 1px solid var(--border); overflow-x: auto; }
+.tab {
+  position: relative; background: none; border: 0; padding: 12px 0; cursor: pointer; white-space: nowrap;
+  font: 800 14px/1 var(--font-body); text-transform: uppercase; color: var(--text-soft); transition: color var(--t);
+}
+.tab::after { content: ""; position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; background: var(--brand); transform: scaleX(0); transition: transform var(--t); }
+.tab:hover, .tab[aria-selected="true"] { color: var(--brand); }
+.tab:hover::after, .tab[aria-selected="true"]::after { transform: scaleX(1); }
+.tab .pill { margin-left: 6px; font-size: 10px; padding: 3px 5px; background: var(--brand); color: var(--text-inverse); border-radius: 2px; vertical-align: 1px; }
+.panel { margin-top: 20px; padding: clamp(22px, 3vw, 36px); }
+.panel[hidden] { display: none; }
+.panel p { color: var(--text-soft); margin: 0 0 16px; max-width: 70ch; }
+.rules { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.rules li { display: grid; grid-template-columns: 44px 1fr; gap: 14px; align-items: center; color: var(--text-soft); }
+.chip { width: 30px; height: 42px; border-radius: 3px; justify-self: center; box-shadow: 0 6px 16px #00000080; transform: rotate(-6deg); }
+.chip--y { background: var(--yellow); } .chip--r { background: var(--red); }
+.chip--g { background: var(--brand); width: 34px; height: 34px; border-radius: 50%; transform: none; display:grid; place-items:center; color: var(--text-inverse); font: 800 13px var(--font-body); }
+.chip--m { background: var(--bg-elevated); border: 1px solid var(--border-strong); width: 34px; height: 34px; border-radius: 50%; transform: none; display:grid; place-items:center; color: var(--text-soft); font: 800 13px var(--font-body); }
+.rules strong { color: var(--text); }
+
+/* ---------- ROTACIÓN DE TURNOS ---------- */
+.rota { margin-top: 16px; padding: clamp(22px, 3vw, 32px); display: grid; grid-template-columns: 1fr 1.7fr; gap: 28px; align-items: center; }
+.rota__head p { margin: 0; color: var(--text-soft); }
+.rota__list { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.rota__list li {
+  display: flex; align-items: center; gap: 12px; padding: 7px 10px;
+  border: 1px solid var(--border-soft); background: #ffffff05; transition: border-color var(--t), background var(--t);
+}
+.rota__list li:hover { border-color: var(--brand-border); background: var(--brand-muted); }
+.rota__r { flex: none; width: 62px; font: 800 11px/1 var(--font-body); text-transform: uppercase; color: var(--text-muted); }
+.rota__seq { display: flex; flex-wrap: wrap; align-items: center; gap: 4px; }
+.rota__seq b { color: var(--text-subtle); font-weight: 400; font-size: 12px; }
+.rota__p {
+  display: inline-flex; align-items: center; gap: 6px; padding: 3px 8px 3px 3px; border-radius: 2px;
+  border: 1px solid var(--border); background: var(--bg-elevated);
+  font: 800 11px/1 var(--font-body); text-transform: uppercase; color: var(--text-soft);
+}
+.rota__p .mini { width: 22px; height: 22px; }
+.rota__p.is-first { border-color: var(--brand); color: var(--brand); background: var(--brand-muted); box-shadow: var(--glow-sm); }
+
+/* ---------- TORNEO ---------- */
+.podium { margin-top: 36px; display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; align-items: end; }
+.pos { padding: 22px 20px 24px; display: flex; flex-direction: column; gap: 6px; }
+.pos__place { font-family: var(--font-heading); font-weight: 700; font-size: 26px; line-height: 1; color: var(--text-muted); }
+.pos__pts { font-family: var(--font-heading); font-weight: 700; font-size: 72px; line-height: .8; padding-top: 6px; }
+.pos__pts small { font-size: 22px; margin-left: 4px; color: var(--text-muted); }
+.pos__who { font-size: 13px; font-weight: 700; color: var(--text-soft); }
+.pos--1 { padding-top: 40px; border-color: var(--brand-border); background: radial-gradient(circle at top right, #53fc182e, #53fc180a 34%, transparent 70%), var(--card-bg); }
+.pos--1 .pos__place, .pos--1 .pos__pts { color: var(--brand); text-shadow: 0 0 32px #53fc1859; }
+.pos--1 .pos__pts small { color: var(--brand); }
+
+/* ---------- LEVELS ---------- */
+.level { padding: 24px; display: flex; flex-direction: column; gap: 10px; overflow: hidden; }
+.level__top { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; }
+.level__name { font-family: var(--font-heading); font-weight: 700; font-size: 34px; line-height: .9; text-transform: uppercase; margin: 0; }
+.level__time { font: 800 11px/1 var(--font-body); text-transform: uppercase; letter-spacing: .03em; color: var(--brand); white-space: nowrap; }
+.level__bar { height: 3px; background: var(--border); position: relative; }
+.level__bar i { position: absolute; inset: 0 auto 0 0; background: var(--brand); box-shadow: var(--glow-sm); }
+.level ul { margin: 6px 0 0; padding-left: 18px; color: var(--text-soft); font-size: 14px; }
+.level li + li { margin-top: 6px; }
+.level li::marker { color: var(--brand); }
+
+/* ---------- CATEGORÍA JUSTA ---------- */
+.meter { margin-top: 36px; display: grid; grid-template-columns: 1fr 1.35fr 1fr; gap: 6px; }
+.meter__z { padding: 22px 22px 24px; background: #ffffff05; border: 1px solid var(--border); border-top: 4px solid var(--red); display: flex; flex-direction: column; gap: 8px; }
+.meter__z p { margin: 0; color: var(--text-soft); font-size: 15px; }
+.meter__z--good { border-top-color: var(--brand); border-color: var(--brand-border); background: radial-gradient(circle at top right, #53fc182e, #53fc180a 34%, transparent 70%), var(--card-bg); box-shadow: 0 0 40px #53fc1820; }
+.meter__range { font-family: var(--font-heading); font-weight: 700; font-size: clamp(38px, 4vw, 52px); line-height: .85; text-transform: uppercase; }
+.meter__z--good .meter__range { color: var(--brand); text-shadow: 0 0 32px #53fc1859; }
+.meter__tag { align-self: flex-start; padding: 5px 7px; border-radius: 2px; font: 800 11px/1 var(--font-body); text-transform: uppercase; color: var(--red); border: 1px solid #ff3b3b66; background: #ff3b3b14; }
+.meter__z--good .meter__tag { color: var(--brand); border-color: var(--brand-border); background: var(--brand-muted); }
+.meter__z .meter__ex { color: var(--text); font-weight: 700; }
+.tip { margin-top: 16px; padding: 20px 22px; display: flex; gap: 16px; align-items: center; }
+.tip p { margin: 0; color: var(--text-soft); }
+.tip strong { color: var(--text); }
+.tip__icon { flex: none; width: 40px; height: 40px; display: grid; place-items: center; border-radius: 2px; background: var(--brand); color: var(--text-inverse); font-family: var(--font-heading); font-weight: 700; font-size: 30px; padding-top: 4px; box-shadow: var(--glow-sm); }
+
+/* ---------- TIMER ---------- */
+.timer { margin-top: 36px; padding: clamp(24px, 4vw, 48px); display: grid; grid-template-columns: auto 1fr; gap: clamp(24px, 5vw, 64px); align-items: center; }
+.clock { position: relative; width: clamp(200px, 26vw, 260px); aspect-ratio: 1; }
+.clock svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+.clock circle { fill: none; stroke-width: 6; }
+.clock .track { stroke: var(--border); }
+.clock .prog { stroke: var(--brand); stroke-linecap: butt; transition: stroke-dashoffset .25s linear, stroke .2s; filter: drop-shadow(0 0 6px #53fc1880); }
+.clock__num {
+  position: absolute; inset: 0; display: grid; place-items: center;
+  font-family: var(--font-heading); font-weight: 700; font-size: clamp(88px, 11vw, 116px); line-height: 1; padding-top: 10px;
+  font-variant-numeric: tabular-nums;
+}
+.timer.is-danger .prog { stroke: var(--red); filter: drop-shadow(0 0 6px #ff3b3b99); }
+.timer.is-danger .clock__num { color: var(--red); }
+.timer.is-over .clock__num { font-size: clamp(44px, 5vw, 56px); color: var(--red); }
+.seg { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0 22px; }
+.seg button { font: 800 13px/1 var(--font-body); padding: 10px 12px; border-radius: 2px; cursor: pointer; background: #ffffff0a; color: var(--text-soft); border: 1px solid var(--border-strong); transition: background var(--t), border-color var(--t), color var(--t), transform var(--t); }
+.seg button:hover { transform: translateY(-1px); color: var(--brand); border-color: var(--brand-border); }
+.seg button[aria-pressed="true"] { background: var(--brand); color: var(--text-inverse); border-color: var(--brand); }
+.timer__btns { display: flex; gap: 10px; flex-wrap: wrap; }
+
+/* ---------- FOOTER ---------- */
+footer { border-top: 1px solid var(--border-soft); padding: 28px 0 40px; color: var(--text-subtle); font-size: 13px; }
+footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+
+/* ---------- REVEAL ---------- */
+.reveal { opacity: 0; transform: translateY(14px); transition: opacity .5s ease, transform .5s ease; }
+.reveal.in { opacity: 1; transform: none; }
+
+/* ---------- RESPONSIVE ---------- */
+@media (max-width: 1100px) {
+  .nav__link:nth-child(n+5):not(:last-child) { display: none; }
+}
+@media (max-width: 960px) {
+  .grid--4 { grid-template-columns: repeat(2, 1fr); }
+  .grid--3 { grid-template-columns: 1fr; }
+  .podium { grid-template-columns: repeat(3, 1fr); }
+  .rota { grid-template-columns: 1fr; }
+  .squad { grid-template-columns: repeat(3, 1fr); }
+  .squad figure:nth-child(4) { border-left: 0; }
+  .squad figure:nth-child(n+4) { border-top: 1px solid var(--border); }
+  .pos--1 { grid-column: 1 / -1; padding-top: 22px; }
+}
+@media (max-width: 760px) {
+  .nav__links { display: none; }
+  .hero__inner { grid-template-columns: 1fr; }
+  .pitch { aspect-ratio: 16 / 11; }
+  .meter { grid-template-columns: 1fr; }
+  .timer { grid-template-columns: 1fr; justify-items: center; text-align: center; }
+  .seg, .timer__btns { justify-content: center; }
+}
+@media (max-width: 520px) {
+  .grid--4 { grid-template-columns: 1fr; }
+  .podium { grid-template-columns: 1fr 1fr; }
+  .squad { grid-template-columns: 1fr 1fr; }
+  .squad figure:nth-child(n) { border-left: 0; border-top: 0; }
+  .squad figure:nth-child(even) { border-left: 1px solid var(--border); }
+  .squad figure:nth-child(n+3) { border-top: 1px solid var(--border); }
+  .token__name { font-size: 9px; padding: 3px 4px; }
+  .pos__pts { font-size: 56px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  .reveal { opacity: 1; transform: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- Avatares geométricos (se reutilizan con <use href="#av-...">) -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <!-- Personas sin fondo (p-*) para reutilizar en el plantel y en las cámaras -->
+    <!-- Agusneta: pelo oscuro con rulos, remera gris -->
+    <g id="p-agus">
+      <path d="M14 100 C14 82 28 74 50 74 C72 74 86 82 86 100 Z" fill="#c9cdc4"/>
+      <rect x="44" y="56" width="12" height="20" fill="#ff9a3c"/>
+      <path d="M42 74 Q50 82 58 74 Z" fill="#ff9a3c"/>
+      <rect x="35" y="26" width="30" height="36" rx="13" fill="#ff9a3c"/>
+      <g fill="#1d1a2f">
+        <circle cx="36" cy="31" r="7.5"/><circle cx="43" cy="24" r="8"/><circle cx="51" cy="21" r="8"/>
+        <circle cx="59" cy="24" r="8"/><circle cx="65" cy="31" r="7"/><circle cx="33.5" cy="40" r="5"/><circle cx="66.5" cy="40" r="5"/>
+      </g>
+      <rect x="42" y="84" width="16" height="9" rx="1" fill="#1d1a2f" opacity=".75"/>
+      <path d="M44 88.5 H56" stroke="#c9cdc4" stroke-width="1.2"/>
+      <path d="M30 88 V100 M70 88 V100" stroke="#1a1a1a" stroke-width="1.2"/>
+    </g>
+
+    <!-- Teo: pelo ondulado claro, remera marrón, cadenita -->
+    <g id="p-teo">
+      <path d="M14 100 C14 82 28 74 50 74 C72 74 86 82 86 100 Z" fill="#5b3b2b"/>
+      <rect x="44" y="56" width="12" height="20" fill="#ff86c8"/>
+      <path d="M42 74 Q50 82 58 74 Z" fill="#ff86c8"/>
+      <rect x="35" y="26" width="30" height="36" rx="13" fill="#ff86c8"/>
+      <path d="M33 47 C29 26 40 16 52 17 C64 16 73 26 68 47 C66 38 63 32 57 30 C51 34 44 33 38 30 C36 36 35 42 33 47 Z" fill="#e0a43a"/>
+      <path d="M41 75 Q50 89 59 75" stroke="#f4f6f2" stroke-width="1.3" fill="none"/>
+      <path d="M30 88 V100 M70 88 V100" stroke="#1a1a1a" stroke-width="1.2"/>
+    </g>
+
+    <!-- Davo: flequillo castaño claro, remera negra, brazos cruzados -->
+    <g id="p-davo">
+      <path d="M14 100 C14 82 28 74 50 74 C72 74 86 82 86 100 Z" fill="#121212"/>
+      <rect x="44" y="56" width="12" height="20" fill="#ffb38a"/>
+      <path d="M42 74 Q50 82 58 74 Z" fill="#ffb38a"/>
+      <rect x="35" y="26" width="30" height="36" rx="13" fill="#ffb38a"/>
+      <path d="M34 42 C31 24 42 16 52 17 C63 17 70 25 66 42 L63 33 L58 37 L53 32 L47 37 L42 32 L38 37 Z" fill="#b8713a"/>
+      <rect x="22" y="84" width="56" height="9" rx="4.5" fill="#ffb38a"/>
+      <rect x="25" y="90" width="50" height="8.5" rx="4.25" fill="#ffb38a" stroke="#121212" stroke-width="1"/>
+    </g>
+
+    <!-- Cobra: pelo corto oscuro, barba tupida, remera negra, tatuaje -->
+    <g id="p-cobra">
+      <path d="M14 100 C14 82 28 74 50 74 C72 74 86 82 86 100 Z" fill="#121212"/>
+      <rect x="44" y="56" width="12" height="20" fill="#ffd166"/>
+      <rect x="35" y="26" width="30" height="36" rx="13" fill="#ffd166"/>
+      <path d="M35 36 V32 C35 24 42 21 50 21 C58 21 65 24 65 32 V36 C62 31 56 29 50 29 C44 29 38 31 35 36 Z" fill="#1d1a2f"/>
+      <path d="M35 47 V53 C35 64 43 71 50 71 C57 71 65 64 65 53 V47 C61 53 56 55.5 50 55.5 C44 55.5 39 53 35 47 Z" fill="#1d1a2f"/>
+      <path d="M74 91 q2.5 -3 5 0 t5 0" stroke="#f4f6f2" stroke-width="1" fill="none"/>
+      <path d="M30 88 V100 M70 88 V100" stroke="#3a3a3a" stroke-width="1.2"/>
+    </g>
+
+    <!-- Beno: pelo castaño oscuro peinado para arriba, bigote fino -->
+    <g id="p-beno">
+      <path d="M14 100 C14 82 28 74 50 74 C72 74 86 82 86 100 Z" fill="#2c332b"/>
+      <rect x="44" y="56" width="12" height="20" fill="#6cc48a"/>
+      <path d="M42 74 Q50 82 58 74 Z" fill="#6cc48a"/>
+      <rect x="37" y="27" width="26" height="36" rx="12" fill="#6cc48a"/>
+      <path d="M36 40 C33 26 38 16 52 16 C62 16 68 22 65 38 C62 31 56 28 48 29 C42 30 38 34 36 40 Z" fill="#3b2418"/>
+      <rect x="44" y="50.5" width="12" height="3" rx="1.5" fill="#3b2418"/>
+      <path d="M30 88 V100 M70 88 V100" stroke="#1a1a1a" stroke-width="1.2"/>
+    </g>
+
+    <!-- Ivo (orador): pelo oscuro, lentes redondos, buzo azul -->
+    <g id="p-ivo">
+      <path d="M14 100 C14 82 28 74 50 74 C72 74 86 82 86 100 Z" fill="#23304a"/>
+      <rect x="44" y="56" width="12" height="20" fill="#ffb38a"/>
+      <path d="M42 74 Q50 82 58 74 Z" fill="#ffb38a"/>
+      <rect x="35" y="26" width="30" height="36" rx="13" fill="#ffb38a"/>
+      <path d="M35 37 V31 C35 22 42 19 50 19 C58 19 65 22 65 31 V37 C62 30 56 27 50 27 C44 27 38 30 35 37 Z" fill="#1d1a2f"/>
+      <g fill="#ffffff22" stroke="#050605" stroke-width="1.8">
+        <circle cx="43" cy="44" r="5.2"/><circle cx="57" cy="44" r="5.2"/>
+      </g>
+      <path d="M48.2 44 H51.8 M37.8 43 L35 41.5 M62.2 43 L65 41.5" stroke="#050605" stroke-width="1.8" fill="none"/>
+      <path d="M30 88 V100 M70 88 V100" stroke="#0e1524" stroke-width="1.2"/>
+    </g>
+
+    <!-- Avatares con fondo de color (plantel y cancha) -->
+    <g id="av-agus"><rect width="100" height="100" fill="#f7a8a2"/><use href="#p-agus"/></g>
+    <g id="av-teo"><rect width="100" height="100" fill="#4f9b6e"/><use href="#p-teo"/></g>
+    <g id="av-davo"><rect width="100" height="100" fill="#1447e6"/><use href="#p-davo"/></g>
+    <g id="av-cobra"><rect width="100" height="100" fill="#7a4fd6"/><use href="#p-cobra"/></g>
+    <g id="av-beno"><rect width="100" height="100" fill="#a9c8f5"/><use href="#p-beno"/></g>
+    <g id="av-orador">
+      <rect width="100" height="100" fill="#53fc18"/><use href="#p-ivo"/>
+      <circle cx="66" cy="30" r="2.2" fill="#f4f6f2"/><circle cx="71" cy="24" r="3.2" fill="#f4f6f2"/>
+      <circle cx="82" cy="14" r="10" fill="#f4f6f2"/>
+      <text x="82" y="20.5" text-anchor="middle" font-family="Teko, sans-serif" font-weight="700" font-size="17" fill="#050605">?</text>
+    </g>
+  </defs>
+
+</svg>
+
+<nav class="nav">
+  <div class="wrap">
+    <a class="nav__brand" href="#inicio">NO DIGAS LO MISMO<b>.</b></a>
+    <div class="nav__links">
+      <a class="nav__link is-active" href="#inicio">Inicio</a>
+      <a class="nav__link" href="#plantel">Plantel</a>
+      <a class="nav__link" href="#como">Cómo se juega</a>
+      <a class="nav__link" href="#ejemplo">Ejemplo</a>
+      <a class="nav__link" href="#formatos">Formatos</a>
+      <a class="nav__link" href="#torneo">Torneo</a>
+      <a class="nav__link" href="#niveles">Niveles</a>
+      <a class="nav__link" href="#cronometro">Cronómetro</a>
+    </div>
+  </div>
+</nav>
+
+<main>
+  <div class="wrap" id="inicio">
+    <div class="notice">Juego hecho por la comunidad · Página no oficial de 412</div>
+
+    <!-- HERO -->
+    <div class="hero">
+      <div class="hero__inner">
+        <div>
+          <p class="eyebrow">Juego 412</p>
+          <h1 class="hero__title">No digas<br><span class="accent">lo mismo</span><br>que yo<span class="dot">.</span></h1>
+          <p class="lead">El orador elige una categoría y piensa su respuesta sin decirla. Los demás tienen que nombrar algo que entre en la categoría <span class="hl">sin coincidir con él</span>. Si te equivocás, coincidís o se te va el tiempo, quedás afuera.</p>
+          <div class="hero__meta">
+            <span>1 orador</span><span>5 jugadores</span><span>30 segundos por turno</span><span>Categorías que suben de nivel</span>
+          </div>
+          <div class="hero__ctas">
+            <a class="btn btn--primary" href="#como">Ver cómo se juega</a>
+            <a class="btn btn--secondary" href="#cronometro">Abrir cronómetro</a>
+          </div>
+        </div>
+        <div class="pitch" aria-hidden="true">
+          <div class="pitch__box pitch__box--top"></div>
+          <div class="pitch__box pitch__box--bot"></div>
+          <div class="token token--orador" style="left:50%;top:48%"><div class="av-wrap"><span class="av"><svg viewBox="0 0 100 100"><use href="#av-orador"/></svg></span></div><span class="token__name">Orador</span></div>
+          <div class="token" style="left:22%;top:18%"><span class="av"><svg viewBox="0 0 100 100"><use href="#av-agus"/></svg></span><span class="token__name">Agusneta</span></div>
+          <div class="token" style="left:78%;top:18%"><span class="av"><svg viewBox="0 0 100 100"><use href="#av-teo"/></svg></span><span class="token__name">Teo</span></div>
+          <div class="token" style="left:18%;top:74%"><span class="av"><svg viewBox="0 0 100 100"><use href="#av-davo"/></svg></span><span class="token__name">Davo</span></div>
+          <div class="token" style="left:82%;top:74%"><span class="av"><svg viewBox="0 0 100 100"><use href="#av-cobra"/></svg></span><span class="token__name">Cobra</span></div>
+          <div class="token" style="left:50%;top:86%"><span class="av"><svg viewBox="0 0 100 100"><use href="#av-beno"/></svg></span><span class="token__name">Beno</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PLANTEL -->
+  <section id="plantel">
+    <div class="wrap">
+      <p class="eyebrow">Plantel</p>
+      <h2 class="h-section">Los que juegan</h2>
+      <p class="lead">Cinco jugadores y un orador. En todos los ejemplos de esta página juegan ellos.</p>
+      <div class="squad">
+        <figure class="is-orador"><svg viewBox="0 0 100 100" role="img" aria-label="Orador"><use href="#av-orador"/></svg><figcaption><div class="name">Ivo</div><div class="role">Orador · o el de turno</div></figcaption></figure>
+        <figure><svg viewBox="0 0 100 100" role="img" aria-label="Agusneta"><use href="#av-agus"/></svg><figcaption><div class="name">Agusneta</div><div class="role">Jugador</div></figcaption></figure>
+        <figure><svg viewBox="0 0 100 100" role="img" aria-label="Teo"><use href="#av-teo"/></svg><figcaption><div class="name">Teo</div><div class="role">Jugador</div></figcaption></figure>
+        <figure><svg viewBox="0 0 100 100" role="img" aria-label="Davo"><use href="#av-davo"/></svg><figcaption><div class="name">Davo</div><div class="role">Jugador</div></figcaption></figure>
+        <figure><svg viewBox="0 0 100 100" role="img" aria-label="Cobra"><use href="#av-cobra"/></svg><figcaption><div class="name">Cobra</div><div class="role">Jugador</div></figcaption></figure>
+        <figure><svg viewBox="0 0 100 100" role="img" aria-label="Beno"><use href="#av-beno"/></svg><figcaption><div class="name">Beno</div><div class="role">Jugador</div></figcaption></figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- CÓMO SE JUEGA -->
+  <section id="como">
+    <div class="wrap">
+      <p class="eyebrow">Reglamento</p>
+      <h2 class="h-section">Cómo se juega</h2>
+      <p class="lead">A diferencia de los juegos de siempre, acá hay un <span class="hl">orador</span> aparte de los 5 que juegan. Ivo o el orador de turno maneja la ronda.</p>
+
+      <div class="grid grid--4">
+        <article class="card card--hover step reveal">
+          <div class="step__n">01</div>
+          <h3>El orador elige</h3>
+          <p>Ivo dice en voz alta una categoría <a href="#categoria" class="hl">amplia, pero no eterna</a>, y <strong>elige su respuesta sin decirla</strong> antes de que arranque la ronda.</p>
+        </article>
+        <article class="card card--hover step reveal">
+          <div class="step__n">02</div>
+          <h3>Cada uno responde</h3>
+          <p>Agusneta, Teo, Davo, Cobra y Beno dicen por turnos una respuesta que entre en la categoría. Cada uno tiene <strong>30 segundos</strong> y el orden <strong>rota cada ronda</strong>. <strong>No se puede repetir</strong> bajo ningún concepto: si decís algo que ya dijo otro, no vale y tenés que pensar otra opción antes de que se te termine el tiempo.</p>
+        </article>
+        <article class="card card--hover step reveal">
+          <div class="step__n">03</div>
+          <h3>Se revela</h3>
+          <p>Cuando responden los 5, Ivo dice cuál era su respuesta. Ahí se ve quién <strong>dijo lo mismo que él</strong>.</p>
+        </article>
+        <article class="card card--hover step reveal">
+          <div class="step__n">04</div>
+          <h3>Quién queda afuera</h3>
+          <p>Queda eliminado quien coincidió con el orador, quien dijo algo que <strong>no cumple la consigna</strong> o quien se pasó de tiempo.</p>
+        </article>
+      </div>
+
+      <div class="card rota reveal">
+        <div class="rota__head">
+          <h3 class="card-title" style="margin-top:0">Rota el que arranca</h3>
+          <p>En cada ronda nueva arranca el que fue segundo en la anterior, y el que arrancó pasa al final. Así todos tienen la chance de contestar primero. Si alguien quedó eliminado, se lo saltea.</p>
+        </div>
+        <ol class="rota__list" id="rota"></ol>
+      </div>
+    </div>
+  </section>
+
+  <!-- EJEMPLO -->
+  <section id="ejemplo">
+    <div class="wrap">
+      <p class="eyebrow">Ronda de prueba</p>
+      <h2 class="h-section">Un ejemplo</h2>
+      <p class="lead">Una ronda con el formato <span class="hl">Tarjetas</span>, como si fuera en vivo. Tocá Siguiente para ver qué responde cada uno y qué pasa cuando Ivo dice su respuesta.</p>
+
+      <div class="card stream">
+        <div class="stream__bar">
+          <span class="live"><i></i>En vivo</span>
+          <span class="stream__cat"><span class="label">Categoría</span><span id="catText">—</span></span>
+          <span class="stream__step" id="stepTag">Previa</span>
+        </div>
+        <div class="cams" id="cams"></div>
+        <div class="stream__caption" aria-live="polite"><p id="caption"></p></div>
+        <div class="demo__controls">
+          <button class="btn btn--primary" id="demoNext">Siguiente</button>
+          <button class="btn btn--secondary" id="demoReset">Reiniciar</button>
+          <div class="dots" id="dots" aria-hidden="true"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+<!-- FORMATOS -->
+  <section id="formatos">
+    <div class="wrap">
+      <p class="eyebrow">Cómo se gana</p>
+      <h2 class="h-section">Formatos</h2>
+      <p class="lead">Tres maneras de jugarlo. La de tarjetas es la más dinámica: si te quedás sin tiempo tenés una segunda oportunidad, pero si coincidís con el orador te vas derecho. En los tres formatos, <strong>repetir no vale</strong>: hay que decir otra opción.</p>
+
+      <div class="tabs" role="tablist">
+        <button class="tab" role="tab" aria-selected="false" aria-controls="p-elim" id="t-elim">Eliminación directa</button>
+        <button class="tab" role="tab" aria-selected="true" aria-controls="p-tarj" id="t-tarj">Tarjetas<span class="pill">Recomendado</span></button>
+        <button class="tab" role="tab" aria-selected="false" aria-controls="p-pts" id="t-pts">Por puntos</button>
+      </div>
+
+      <div class="card panel" role="tabpanel" id="p-elim" aria-labelledby="t-elim" hidden>
+        <h3 class="card-title" style="margin-top:0">Eliminación directa</h3>
+        <p>El formato original. Cualquier error y quedás afuera. Las rondas siguen con los que quedan hasta que hay un solo ganador.</p>
+        <ul class="rules">
+          <li><span class="chip chip--r"></span><span><strong>Afuera</strong> si coincidís con el orador, decís algo que no entra en la categoría o te pasás de tiempo.</span></li>
+          <li><span class="chip chip--g">1</span><span><strong>Gana</strong> el último jugador que queda en pie.</span></li>
+        </ul>
+      </div>
+
+      <div class="card panel" role="tabpanel" id="p-tarj" aria-labelledby="t-tarj">
+        <h3 class="card-title" style="margin-top:0">Tarjetas</h3>
+        <p>Como en un partido. Pasarte de tiempo es amarilla y los errores graves son roja directa. Dos amarillas es roja.</p>
+        <ul class="rules">
+          <li><span class="chip chip--y"></span><span><strong>Amarilla:</strong> te pasaste de tiempo.</span></li>
+          <li><span class="chip chip--r"></span><span><strong>Roja directa:</strong> dijiste lo mismo que el orador o tu respuesta no cumple la consigna.</span></li>
+          <li><span class="chip chip--g">1</span><span><strong>Gana</strong> el último que queda en cancha. Si quedan dos y los dos ven roja en la misma ronda, se juega una ronda de desempate.</span></li>
+        </ul>
+      </div>
+
+      <div class="card panel" role="tabpanel" id="p-pts" aria-labelledby="t-pts" hidden>
+        <h3 class="card-title" style="margin-top:0">Por puntos</h3>
+        <p>Nadie queda eliminado. Se juegan varias rondas, el orador rota y gana quien suma más al final. Ideal para que todos jueguen toda la noche.</p>
+        <ul class="rules">
+          <li><span class="chip chip--g">+1</span><span><strong>Respuesta válida</strong> que no coincide con el orador.</span></li>
+          <li><span class="chip chip--m">0</span><span><strong>Te pasaste de tiempo.</strong></span></li>
+          <li><span class="chip chip--m">−1</span><span><strong>Coincidiste con el orador</strong> o tu respuesta no cumple la consigna.</span></li>
+          <li><span class="chip chip--g">+1</span><span><strong>El orador</strong> suma un punto por cada jugador que coincidió con él. Así le conviene elegir la respuesta más obvia.</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- TORNEO -->
+  <section id="torneo">
+    <div class="wrap">
+      <p class="eyebrow">Varias fechas</p>
+      <h2 class="h-section">Torneo</h2>
+      <p class="lead">Se juegan varios partidos con el formato <span class="hl">Tarjetas</span>, por ejemplo 3: uno por nivel o uno por noche. En cada partido sumás según cuánto aguantaste. Al final gana el que más puntos acumuló.</p>
+
+      <div class="podium">
+        <div class="card card--hover pos pos--1 reveal">
+          <div class="pos__place">1°</div>
+          <div class="pos__pts">5<small>pts</small></div>
+          <div class="pos__who">El último en pie</div>
+        </div>
+        <div class="card card--hover pos reveal">
+          <div class="pos__place">2°</div>
+          <div class="pos__pts">3<small>pts</small></div>
+          <div class="pos__who">El último en irse</div>
+        </div>
+        <div class="card card--hover pos reveal">
+          <div class="pos__place">3°</div>
+          <div class="pos__pts">2<small>pts</small></div>
+          <div class="pos__who">El anteúltimo en irse</div>
+        </div>
+        <div class="card card--hover pos reveal">
+          <div class="pos__place">4°</div>
+          <div class="pos__pts">1<small>pt</small></div>
+          <div class="pos__who">El segundo en irse</div>
+        </div>
+        <div class="card card--hover pos reveal">
+          <div class="pos__place">5°</div>
+          <div class="pos__pts">0<small>pts</small></div>
+          <div class="pos__who">El primero en irse</div>
+        </div>
+      </div>
+
+      <div class="card panel" style="margin-top:16px">
+        <ul class="rules">
+          <li><span class="chip chip--g">1</span><span><strong>Cada partido</strong> arranca de cero: todos vuelven a la cancha y sin tarjetas.</span></li>
+          <li><span class="chip chip--g">2</span><span><strong>Si dos se van en la misma ronda</strong>, comparten el puesto y suman los dos los puntos de ese puesto. El siguiente puesto se saltea.</span></li>
+          <li><span class="chip chip--g">3</span><span><strong>Gana el torneo</strong> el que más puntos suma. Si hay empate arriba, se juega una ronda de desempate con una categoría de nivel Final.</span></li>
+        </ul>
+        <p class="muted" style="margin:18px 0 0;font-size:14px">Aunque te vayas primero en un partido, podés recuperarte en el siguiente. Y aguantar hasta el final siempre suma.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- NIVELES -->
+  <section id="niveles">
+    <div class="wrap">
+      <p class="eyebrow">A medida que avanza</p>
+      <h2 class="h-section">Niveles</h2>
+      <p class="lead">Las categorías se ponen más difíciles a medida que avanzan las rondas. El tiempo no cambia: siempre <span class="hl">30 segundos</span> por turno. Cada nivel dura una o dos rondas.</p>
+      <p class="muted" style="margin:12px 0 0;font-size:14px">En todos los niveles, la categoría tiene que tener entre 6 y 30 respuestas posibles. <a href="#categoria" class="hl">Cómo elegirla</a></p>
+
+      <div class="grid grid--4">
+        <article class="card card--hover level reveal">
+          <div class="level__top"><h3 class="level__name">Potrero</h3><span class="level__time">Nivel 1</span></div>
+          <div class="level__bar"><i style="width:25%"></i></div>
+          <ul>
+            <li>Selecciones que ganaron un Mundial</li>
+            <li>Clubes de Primera de Buenos Aires</li>
+          </ul>
+        </article>
+        <article class="card card--hover level reveal">
+          <div class="level__top"><h3 class="level__name">Primera</h3><span class="level__time">Nivel 2</span></div>
+          <div class="level__bar"><i style="width:50%"></i></div>
+          <ul>
+            <li>Argentinos que jugaron en el Real Madrid</li>
+            <li>Arqueros de la Selección en los últimos 20 años</li>
+          </ul>
+        </article>
+        <article class="card card--hover level reveal">
+          <div class="level__top"><h3 class="level__name">Copa</h3><span class="level__time">Nivel 3</span></div>
+          <div class="level__bar"><i style="width:75%"></i></div>
+          <ul>
+            <li>Clubes argentinos que ganaron la Libertadores</li>
+            <li>Últimos campeones del fútbol argentino (10 años)</li>
+          </ul>
+        </article>
+        <article class="card card--hover level reveal">
+          <div class="level__top"><h3 class="level__name">Final</h3><span class="level__time">Nivel 4</span></div>
+          <div class="level__bar"><i style="width:100%"></i></div>
+          <ul>
+            <li>Argentinos que hicieron gol en una final del Mundial</li>
+            <li>Técnicos de la Selección desde 1974</li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- CATEGORÍA IDEAL -->
+  <section id="categoria">
+    <div class="wrap">
+      <p class="eyebrow">Recordatorio para el orador</p>
+      <h2 class="h-section">La categoría justa</h2>
+      <p class="lead">Pensá categorías con <span class="hl">muchas respuestas posibles, pero no eternas</span>. Si son muy cortas, alguien se queda sin opción. Si son infinitas, nadie coincide nunca con vos y el juego no termina más.</p>
+
+      <div class="meter">
+        <div class="meter__z meter__z--bad reveal">
+          <div class="meter__range">Menos de 6</div>
+          <div class="meter__tag">Muy corta</div>
+          <p class="meter__ex">«Arqueros titulares de Argentina en la final de 2022»</p>
+          <p>Tiene una sola respuesta. Con 5 jugadores y el orador, alguien se queda sin opción.</p>
+        </div>
+        <div class="meter__z meter__z--good reveal">
+          <div class="meter__range">De 6 a 30</div>
+          <div class="meter__tag">Ideal</div>
+          <p class="meter__ex">«Selecciones que ganaron un Mundial»</p>
+          <p>Tiene 8 respuestas. Todos tienen opción, hay que pensar un poco y coincidir con el orador es bastante posible.</p>
+        </div>
+        <div class="meter__z meter__z--bad reveal">
+          <div class="meter__range">Cientos</div>
+          <div class="meter__tag">Eterna</div>
+          <p class="meter__ex">«Jugadores que pasaron por Boca»</p>
+          <p>Son cientos. Casi nadie va a coincidir con vos y la ronda no termina nunca.</p>
+        </div>
+      </div>
+
+      <div class="card tip reveal">
+        <div class="tip__icon" aria-hidden="true">!</div>
+        <p><strong>Truco antes de decirla:</strong> fijate si se te ocurren 6 respuestas rápido. Si no llegás, ampliala. Si se te ocurren 50 sin pensar, achicala: «jugadores que pasaron por Boca» → «jugadores de Boca campeones de la Libertadores 2007».</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CRONÓMETRO -->
+  <section id="cronometro">
+    <div class="wrap">
+      <p class="eyebrow">Para usar en vivo</p>
+      <h2 class="h-section">Cronómetro</h2>
+
+      <div class="card timer" id="timer">
+        <div class="clock">
+          <svg viewBox="0 0 120 120" aria-hidden="true">
+            <circle class="track" cx="60" cy="60" r="54"/>
+            <circle class="prog" id="prog" cx="60" cy="60" r="54"/>
+          </svg>
+          <div class="clock__num" id="num" aria-live="polite">30</div>
+        </div>
+        <div>
+          <div class="label">Tiempo por turno · igual en todas las rondas</div>
+          <div class="seg" id="seg">
+            <button data-s="20" aria-pressed="false">20s</button>
+            <button data-s="30" aria-pressed="true">30s</button>
+            <button data-s="45" aria-pressed="false">45s</button>
+          </div>
+          <div class="timer__btns">
+            <button class="btn btn--primary" id="start">Arrancar</button>
+            <button class="btn btn--secondary" id="reset">Reiniciar</button>
+          </div>
+          <p class="muted" style="margin:18px 0 0;font-size:14px">Tocá la barra espaciadora para arrancar o pausar. Los últimos 5 segundos se ponen en rojo.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>No digas lo mismo que yo · Juego para la comunidad de 412</span>
+    <span>Página no oficial</span>
+  </div>
+</footer>
+
+<script>
+/* ---------- Demo (transmisión) ---------- */
+(() => {
+  const PEOPLE = [
+    { id: 'ivo',   name: 'Ivo', role: 'Orador' },
+    { id: 'agus',  name: 'Agusneta' },
+    { id: 'teo',   name: 'Teo' },
+    { id: 'davo',  name: 'Davo' },
+    { id: 'cobra', name: 'Cobra' },
+    { id: 'beno',  name: 'Beno' },
+  ];
+  const CATEGORY = 'Selecciones que ganaron un Mundial';
+  const STEPS = [
+    { tag: 'Previa', caption: 'Arranca la ronda. <strong>Ivo</strong> es el orador y los otros cinco juegan. Tocá <strong>Siguiente</strong>.' },
+    { tag: 'Categoría', active: 'ivo', say: { ivo: CATEGORY }, cat: true,
+      caption: '<strong>Ivo</strong> dice la categoría en voz alta y elige su respuesta, sin decirla.' },
+    { tag: 'Turno 1', active: 'agus', say: { agus: 'Brasil' },
+      caption: '<strong>Agusneta</strong> dice Brasil. Ganó el Mundial y nadie lo había dicho: vale.' },
+    { tag: 'Turno 2', active: 'teo', say: { teo: 'Francia' },
+      caption: '<strong>Teo</strong> dice Francia. También ganó y nadie la había dicho: vale.' },
+    { tag: 'Turno 3', active: 'davo', say: { davo: 'Argentina' },
+      caption: '<strong>Davo</strong> dice Argentina. Entra en la categoría… pero falta ver qué eligió Ivo.' },
+    { tag: 'Turno 4', active: 'cobra', say: { cobra: 'Países Bajos' }, card: { cobra: 'red' }, out: ['cobra'],
+      caption: '<strong>Cobra</strong> dice Países Bajos. Llegó a tres finales, pero nunca ganó un Mundial: no cumple la consigna. <strong>Roja directa.</strong>' },
+    { tag: 'Turno 5', active: 'beno', say: { beno: '<s>Brasil</s>…' }, card: { beno: 'yellow' },
+      caption: '<strong>Beno</strong> dice Brasil, pero ya lo había dicho Agusneta: no vale. Tiene que pensar otra… y se le terminan los 30 segundos. <strong>Amarilla por tiempo.</strong>' },
+    { tag: 'Se revela', active: 'ivo', say: { ivo: 'Yo elegí Argentina' }, card: { davo: 'red' }, out: ['davo'],
+      caption: 'Ivo dice su respuesta: <strong>Argentina</strong>. Davo dijo lo mismo que él: <strong>roja directa</strong>. Siguen en juego Agusneta, Teo y Beno (con amarilla).' },
+  ];
+
+  const scene = id => `
+    <svg viewBox="0 0 160 100" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+      <rect width="160" height="100" fill="#0b0e0b"/>
+      <g fill="#111611"><rect x="6" y="6" width="34" height="60"/><rect x="120" y="6" width="34" height="60"/></g>
+      <path d="M6 21H40M6 36H40M6 51H40M120 21H154M120 36H154M120 51H154" stroke="#0b0e0b" stroke-width="1.6"/>
+      <rect x="0" y="66" width="160" height="1.5" fill="#53fc18" opacity=".35"/>
+      <rect x="54" y="8" width="52" height="86" rx="10" fill="#1a1f1a"/>
+      <rect x="57" y="12" width="3" height="44" rx="1.5" fill="#53fc18" opacity=".45"/>
+      <rect x="100" y="12" width="3" height="44" rx="1.5" fill="#53fc18" opacity=".45"/>
+      <use href="#p-${id}" transform="translate(20 -16) scale(1.2)"/>
+      <path d="M16 0 L42 28 L54 45" stroke="#2a2f2a" stroke-width="2.2" fill="none"/>
+      <rect x="50" y="44" width="9" height="16" rx="4.5" fill="#0a0a0a" stroke="#3a3f3a" stroke-width=".8"/>
+      <rect x="0" y="90" width="160" height="10" fill="#060706"/>
+      <rect x="0" y="90" width="160" height="1.2" fill="#2c332b"/>
+      <rect x="61" y="78" width="38" height="13" rx="1.5" fill="#2b302b"/>
+      <circle cx="80" cy="84.5" r="2.4" fill="#53fc18" opacity=".8"/>
+      <rect x="124" y="74" width="8" height="16" rx="2" fill="#151515"/>
+    </svg>`;
+
+  const cams = document.getElementById('cams');
+  cams.innerHTML = PEOPLE.map(p => `
+    <div class="cam${p.role ? ' cam--orador' : ''}" data-id="${p.id}">
+      ${scene(p.id)}
+      <div class="bubble"></div>
+      <span class="cam__card"></span>
+      <div class="cam__tag">${p.name}${p.role ? ' · <em>' + p.role + '</em>' : ''}</div>
+    </div>`).join('');
+
+  const dots = document.getElementById('dots');
+  dots.innerHTML = STEPS.map(() => '<i></i>').join('');
+  const next = document.getElementById('demoNext');
+  let step = 0;
+
+  function render() {
+    const s = STEPS[step];
+    const said = {}, cards = {}, out = new Set();
+    let showCat = false;
+    STEPS.slice(0, step + 1).forEach(x => {
+      Object.assign(said, x.say || {});
+      Object.assign(cards, x.card || {});
+      (x.out || []).forEach(id => out.add(id));
+      if (x.cat) showCat = true;
+    });
+
+    cams.querySelectorAll('.cam').forEach(cam => {
+      const id = cam.dataset.id;
+      cam.classList.toggle('is-active', s.active === id);
+      cam.classList.toggle('is-out', out.has(id));
+      const b = cam.querySelector('.bubble');
+      // El orador solo "habla" cuando es su momento; los jugadores dejan su respuesta a la vista.
+      const text = id === 'ivo' ? (s.active === 'ivo' && s.say ? s.say.ivo : '') : (said[id] || '');
+      b.innerHTML = text;
+      b.classList.toggle('is-on', !!text);
+      const c = cam.querySelector('.cam__card');
+      c.className = 'cam__card' + (cards[id] ? ' is-' + cards[id] : '');
+    });
+
+    document.getElementById('catText').textContent = showCat ? CATEGORY : '—';
+    document.getElementById('stepTag').textContent = s.tag;
+    document.getElementById('caption').innerHTML = s.caption;
+    dots.querySelectorAll('i').forEach((d, i) => d.classList.toggle('on', i <= step));
+    next.disabled = step === STEPS.length - 1;
+    next.textContent = step === STEPS.length - 1 ? 'Fin de la ronda'
+      : step === STEPS.length - 2 ? 'Ivo dice su respuesta' : 'Siguiente';
+  }
+
+  next.addEventListener('click', () => { if (step < STEPS.length - 1) { step++; render(); } });
+  document.getElementById('demoReset').addEventListener('click', () => { step = 0; render(); });
+  render();
+})();
+
+/* ---------- Rotación de turnos ---------- */
+(() => {
+  const order = [['agus', 'Agusneta'], ['teo', 'Teo'], ['davo', 'Davo'], ['cobra', 'Cobra'], ['beno', 'Beno']];
+  document.getElementById('rota').innerHTML = order.map((_, r) => {
+    const seq = order.slice(r).concat(order.slice(0, r));
+    return `<li><span class="rota__r">Ronda ${r + 1}</span><div class="rota__seq">${
+      seq.map(([id, name], i) => `<span class="rota__p${i === 0 ? ' is-first' : ''}"><svg class="mini" viewBox="0 0 100 100" aria-hidden="true"><use href="#av-${id}"/></svg>${name}</span>`).join('<b>›</b>')
+    }</div></li>`;
+  }).join('');
+})();
+
+/* ---------- Tabs ---------- */
+(() => {
+  const tabs = [...document.querySelectorAll('.tab')];
+  tabs.forEach(t => t.addEventListener('click', () => {
+    tabs.forEach(o => {
+      const on = o === t;
+      o.setAttribute('aria-selected', on);
+      document.getElementById(o.getAttribute('aria-controls')).hidden = !on;
+    });
+  }));
+})();
+
+/* ---------- Timer ---------- */
+(() => {
+  const box = document.getElementById('timer');
+  const num = document.getElementById('num');
+  const prog = document.getElementById('prog');
+  const startBtn = document.getElementById('start');
+  const C = 2 * Math.PI * 54;
+  prog.style.strokeDasharray = C;
+
+  let total = 30, left = 30, endAt = 0, raf = 0, running = false;
+
+  function paint() {
+    const secs = Math.ceil(left);
+    box.classList.toggle('is-over', left <= 0);
+    box.classList.toggle('is-danger', left <= 5);
+    num.textContent = left <= 0 ? 'AFUERA' : secs;
+    prog.style.strokeDashoffset = C * (1 - Math.max(left, 0) / total);
+  }
+  function tick() {
+    left = (endAt - performance.now()) / 1000;
+    if (left <= 0) { left = 0; stop(); paint(); beep(); return; }
+    paint();
+    raf = requestAnimationFrame(tick);
+  }
+  function start() {
+    if (left <= 0) left = total;
+    endAt = performance.now() + left * 1000;
+    running = true; startBtn.textContent = 'Pausar';
+    raf = requestAnimationFrame(tick);
+  }
+  function stop() {
+    running = false; cancelAnimationFrame(raf);
+    startBtn.textContent = left <= 0 ? 'Otra vez' : 'Seguir';
+  }
+  function reset() {
+    stop(); left = total; startBtn.textContent = 'Arrancar'; paint();
+  }
+  function beep() {
+    try {
+      const ctx = new (window.AudioContext || window.webkitAudioContext)();
+      const o = ctx.createOscillator(), g = ctx.createGain();
+      o.type = 'square'; o.frequency.value = 880;
+      g.gain.setValueAtTime(.08, ctx.currentTime);
+      g.gain.exponentialRampToValueAtTime(.0001, ctx.currentTime + .6);
+      o.connect(g).connect(ctx.destination); o.start(); o.stop(ctx.currentTime + .6);
+    } catch (e) {}
+  }
+
+  startBtn.addEventListener('click', () => running ? stop() : start());
+  document.getElementById('reset').addEventListener('click', reset);
+  document.querySelectorAll('#seg button').forEach(b => b.addEventListener('click', () => {
+    document.querySelectorAll('#seg button').forEach(o => o.setAttribute('aria-pressed', o === b));
+    total = +b.dataset.s; reset();
+  }));
+  document.addEventListener('keydown', e => {
+    if (e.code === 'Space' && !/INPUT|TEXTAREA|BUTTON/.test(document.activeElement.tagName)) {
+      e.preventDefault(); running ? stop() : start();
+    }
+  });
+  paint();
+})();
+
+/* ---------- Scroll reveal + nav highlight ---------- */
+(() => {
+  const io = new IntersectionObserver(es => es.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+  }), { threshold: .15 });
+  document.querySelectorAll('.reveal').forEach((el, i) => {
+    el.style.transitionDelay = (i % 4) * 70 + 'ms';
+    io.observe(el);
+  });
+
+  const links = [...document.querySelectorAll('.nav__link')];
+  const sections = links.map(l => document.querySelector(l.getAttribute('href')));
+  const nav = new IntersectionObserver(es => es.forEach(e => {
+    if (e.isIntersecting) {
+      const id = '#' + e.target.id;
+      links.forEach(l => l.classList.toggle('is-active', l.getAttribute('href') === id));
+    }
+  }), { rootMargin: '-45% 0px -50% 0px' });
+  sections.forEach(s => s && nav.observe(s));
+})();
+</script>
+</body>
+</html>
