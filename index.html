@@ -330,25 +330,14 @@ section:last-of-type { padding-bottom: var(--section-gap); }
   .dots { margin-left: 0; width: 100%; }
 }
 
-/* ---------- TABS / FORMATS ---------- */
-.tabs { display: flex; gap: 26px; margin-top: 32px; border-bottom: 1px solid var(--border); overflow-x: auto; }
-.tab {
-  position: relative; background: none; border: 0; padding: 12px 0; cursor: pointer; white-space: nowrap;
-  font: 800 14px/1 var(--font-body); text-transform: uppercase; color: var(--text-soft); transition: color var(--t);
-}
-.tab::after { content: ""; position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; background: var(--brand); transform: scaleX(0); transition: transform var(--t); }
-.tab:hover, .tab[aria-selected="true"] { color: var(--brand); }
-.tab:hover::after, .tab[aria-selected="true"]::after { transform: scaleX(1); }
-.tab .pill { margin-left: 6px; font-size: 10px; padding: 3px 5px; background: var(--brand); color: var(--text-inverse); border-radius: 2px; vertical-align: 1px; }
+/* ---------- CÓMO SE GANA ---------- */
 .panel { margin-top: 20px; padding: clamp(22px, 3vw, 36px); }
-.panel[hidden] { display: none; }
 .panel p { color: var(--text-soft); margin: 0 0 16px; max-width: 70ch; }
 .rules { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
 .rules li { display: grid; grid-template-columns: 44px 1fr; gap: 14px; align-items: center; color: var(--text-soft); }
 .chip { width: 30px; height: 42px; border-radius: 3px; justify-self: center; box-shadow: 0 6px 16px #00000080; transform: rotate(-6deg); }
 .chip--r { background: var(--red); }
 .chip--g { background: var(--brand); width: 34px; height: 34px; border-radius: 50%; transform: none; display:grid; place-items:center; color: var(--text-inverse); font: 800 13px var(--font-body); }
-.chip--m { background: var(--bg-elevated); border: 1px solid var(--border-strong); width: 34px; height: 34px; border-radius: 50%; transform: none; display:grid; place-items:center; color: var(--text-soft); font: 800 13px var(--font-body); }
 .rules strong { color: var(--text); }
 
 /* ---------- ROTACIÓN DE TURNOS ---------- */
@@ -578,7 +567,7 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
       <a class="nav__link" href="#plantel">Plantel</a>
       <a class="nav__link" href="#como">Cómo se juega</a>
       <a class="nav__link" href="#ejemplo">Ejemplo</a>
-      <a class="nav__link" href="#formatos">Formatos</a>
+      <a class="nav__link" href="#gana">Cómo se gana</a>
       <a class="nav__link" href="#torneo">Torneo</a>
       <a class="nav__link" href="#niveles">Niveles</a>
       <a class="nav__link" href="#cronometro">Cronómetro</a>
@@ -700,34 +689,18 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
     </div>
   </section>
 
-<!-- FORMATOS -->
-  <section id="formatos">
+<!-- CÓMO SE GANA -->
+  <section id="gana">
     <div class="wrap">
       <p class="eyebrow">Cómo se gana</p>
-      <h2 class="h-section">Formatos</h2>
-      <p class="lead">Dos maneras de jugarlo. En las dos, <strong>repetir no vale</strong>: si decís algo que ya dijo otro, tenés que elegir otra opción. Si se te termina el tiempo antes, perdés.</p>
+      <h2 class="h-section">Eliminación directa</h2>
+      <p class="lead">Cualquier error y quedás afuera, sin segundas oportunidades. Las rondas siguen con los que quedan hasta que hay un solo ganador.</p>
 
-      <div class="tabs" role="tablist">
-        <button class="tab" role="tab" aria-selected="true" aria-controls="p-elim" id="t-elim">Eliminación directa<span class="pill">Recomendado</span></button>
-        <button class="tab" role="tab" aria-selected="false" aria-controls="p-pts" id="t-pts">Por puntos</button>
-      </div>
-
-      <div class="card panel" role="tabpanel" id="p-elim" aria-labelledby="t-elim">
-        <h3 class="card-title" style="margin-top:0">Eliminación directa</h3>
-        <p>El formato original. Cualquier error y quedás afuera, sin segundas oportunidades. Las rondas siguen con los que quedan hasta que hay un solo ganador.</p>
+      <div class="card panel">
         <ul class="rules">
-          <li><span class="chip chip--r"></span><span><strong>Afuera</strong> si coincidís con el orador, si decís algo que no entra en la categoría o si se te termina el tiempo (también si repetiste y no llegaste a decir otra).</span></li>
+          <li><span class="chip chip--r"></span><span><strong>Afuera</strong> si coincidís con el orador, si decís algo que no entra en la categoría o si se te termina el tiempo.</span></li>
+          <li><span class="chip chip--r"></span><span><strong>Repetir no vale:</strong> si decís algo que ya dijo otro, tenés que elegir otra opción. Si se te termina el tiempo antes, quedás afuera.</span></li>
           <li><span class="chip chip--g">1</span><span><strong>Gana</strong> el último que queda en pie. Si quedan dos y los dos quedan afuera en la misma ronda, se juega una ronda de desempate.</span></li>
-        </ul>
-      </div>
-
-      <div class="card panel" role="tabpanel" id="p-pts" aria-labelledby="t-pts" hidden>
-        <h3 class="card-title" style="margin-top:0">Por puntos</h3>
-        <p>Nadie queda eliminado. Se juegan varias rondas, el orador rota y gana quien suma más al final. Ideal para que todos jueguen toda la noche.</p>
-        <ul class="rules">
-          <li><span class="chip chip--g">+1</span><span><strong>Respuesta válida</strong> que no coincide con el orador.</span></li>
-          <li><span class="chip chip--m">−1</span><span><strong>Coincidiste con el orador</strong>, tu respuesta no cumple la consigna o se te terminó el tiempo.</span></li>
-          <li><span class="chip chip--g">+1</span><span><strong>El orador</strong> suma un punto por cada jugador que coincidió con él. Así le conviene elegir la respuesta más obvia.</span></li>
         </ul>
       </div>
     </div>
@@ -772,7 +745,7 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
         <ul class="rules">
           <li><span class="chip chip--g">1</span><span><strong>Cada partido</strong> arranca de cero: todos vuelven a la cancha.</span></li>
           <li><span class="chip chip--g">2</span><span><strong>Si dos se van en la misma ronda</strong>, comparten el puesto y suman los dos los puntos de ese puesto. El siguiente puesto se saltea.</span></li>
-          <li><span class="chip chip--g">3</span><span><strong>Gana el torneo</strong> el que más puntos suma. Si hay empate arriba, se juega una ronda de desempate con una categoría de nivel Final.</span></li>
+          <li><span class="chip chip--g">3</span><span><strong>Gana el torneo</strong> el que más puntos suma. Si hay empate arriba, se juega una ronda de desempate con una categoría de nivel Experto.</span></li>
         </ul>
         <p class="muted" style="margin:18px 0 0;font-size:14px">Aunque te vayas primero en un partido, podés recuperarte en el siguiente. Y aguantar hasta el final siempre suma.</p>
       </div>
@@ -789,7 +762,7 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
 
       <div class="grid grid--4">
         <article class="card card--hover level reveal">
-          <div class="level__top"><h3 class="level__name">Potrero</h3><span class="level__time">Nivel 1</span></div>
+          <div class="level__top"><h3 class="level__name">Fácil</h3><span class="level__time">Nivel 1</span></div>
           <div class="level__bar"><i style="width:25%"></i></div>
           <ul>
             <li>Selecciones que ganaron un Mundial</li>
@@ -797,7 +770,7 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
           </ul>
         </article>
         <article class="card card--hover level reveal">
-          <div class="level__top"><h3 class="level__name">Primera</h3><span class="level__time">Nivel 2</span></div>
+          <div class="level__top"><h3 class="level__name">Medio</h3><span class="level__time">Nivel 2</span></div>
           <div class="level__bar"><i style="width:50%"></i></div>
           <ul>
             <li>Argentinos que jugaron en el Real Madrid</li>
@@ -805,7 +778,7 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
           </ul>
         </article>
         <article class="card card--hover level reveal">
-          <div class="level__top"><h3 class="level__name">Copa</h3><span class="level__time">Nivel 3</span></div>
+          <div class="level__top"><h3 class="level__name">Avanzado</h3><span class="level__time">Nivel 3</span></div>
           <div class="level__bar"><i style="width:75%"></i></div>
           <ul>
             <li>Clubes argentinos que ganaron la Libertadores</li>
@@ -813,7 +786,7 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
           </ul>
         </article>
         <article class="card card--hover level reveal">
-          <div class="level__top"><h3 class="level__name">Final</h3><span class="level__time">Nivel 4</span></div>
+          <div class="level__top"><h3 class="level__name">Experto</h3><span class="level__time">Nivel 4</span></div>
           <div class="level__bar"><i style="width:100%"></i></div>
           <ul>
             <li>Argentinos que hicieron gol en una final del Mundial</li>
@@ -1008,18 +981,6 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
       seq.map(([id, name], i) => `<span class="rota__p${i === 0 ? ' is-first' : ''}"><svg class="mini" viewBox="0 0 100 100" aria-hidden="true"><use href="#av-${id}"/></svg>${name}</span>`).join('<b>›</b>')
     }</div></li>`;
   }).join('');
-})();
-
-/* ---------- Tabs ---------- */
-(() => {
-  const tabs = [...document.querySelectorAll('.tab')];
-  tabs.forEach(t => t.addEventListener('click', () => {
-    tabs.forEach(o => {
-      const on = o === t;
-      o.setAttribute('aria-selected', on);
-      document.getElementById(o.getAttribute('aria-controls')).hidden = !on;
-    });
-  }));
 })();
 
 /* ---------- Timer ---------- */
